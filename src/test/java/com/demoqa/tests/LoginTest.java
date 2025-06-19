@@ -49,6 +49,7 @@ public class LoginTest extends TestBase {
     open("/profile");
     $("#userName-value").shouldHave(text(login));
   }
+
   @Test
   public void successfulLoginWithApiTest2() {
     String login = "qwe123";
@@ -70,18 +71,13 @@ public class LoginTest extends TestBase {
     String token = authResponse.jsonPath().getString("token");
     String userId = authResponse.jsonPath().getString("userId");
 
-    // Открываем любой адрес на домене demoqa.com, чтобы иметь доступ к localStorage
     open("/favicon.ico");
-
-    // Устанавливаем данные аутентификации в localStorage
     executeJavaScript("window.localStorage.setItem('token', arguments[0]);", token);
     executeJavaScript("window.localStorage.setItem('userID', arguments[0]);", userId);
     executeJavaScript("window.localStorage.setItem('userName', arguments[0]);", login);
 
-    // Переходим на профиль — данные уже установлены
-    open("/profile");
 
-    // Проверка: имя пользователя на странице
+    open("/profile");
     $("#userName-value").shouldHave(text(login));
   }
 }
